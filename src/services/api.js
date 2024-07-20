@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const apiClient = axios.create({
-    baseURL: 'http://localhost:2657',
+    baseURL: 'https://votaciones-kappa.vercel.app',
     timeout: 6000
 })
 
@@ -143,16 +143,6 @@ export const addGreenBallotHRequest = async (idTeam) => {
     }
 }
 
-export const getGreenBallotsRequest = async () => {
-    try {
-        return await apiClient.get('/statistics/getGreenBallot');
-    } catch (err) {
-        return{
-            error: true,
-            err
-        }
-    }
-}
 
 //---------------------->Papeleta Rosa
 
@@ -179,22 +169,13 @@ export const addPinkBallotHRequest = async (idTeam) => {
     }
 }
 
-export const getPinkBallotsRequest = async () => {
-    try {
-        return await apiClient.get('/statistics/getPinkBallot');
-    } catch (err) {
-        return{
-            error: true,
-            err
-        }
-    }
-}
+
 
 export const getMayorByTown = async () => {
     try {
         return await apiClient.get('/pinkTeam/get');
-    }catch(err){
-        return{
+    } catch (err) {
+        return {
             error: true,
             err
         }
@@ -226,16 +207,7 @@ export const addBlueBallotHRequest = async (idTeam) => {
     }
 }
 
-export const getBlueBallotsRequest = async () => {
-    try {
-        return await apiClient.get('/statistics/getBlueBallot');
-    } catch (err) {
-        return{
-            error: true,
-            err
-        }
-    }
-}
+
 
 //---------------------->Papeleta Amarilla
 export const getAllYellowTeam = async () => {
@@ -261,21 +233,13 @@ export const addYellowBallotHRequest = async (idTeam) => {
     }
 }
 
-export const getYellowBallotsRequest = async () => {
-    try {
-        return await apiClient.get('/statistics/getYellowBallot');
-    } catch (err) {
-        return{
-            error: true,
-            err
-        }
-    }
-}
+/* =========== ====================== */
+/*             ESTADISTICAS           */
+/* =========== ====================== */
 
+//---------------------->ESTADISTICA Papeleta Blanca
 
-//---------------------->Papeleta Blanca
-
-export const getWhiteBallotsRequest = async()=>{
+export const getWhiteBallotsRequest = async () => {
     try {
         return await apiClient.get('/statistics/getWhiteBallot')
     } catch (err) {
@@ -285,6 +249,61 @@ export const getWhiteBallotsRequest = async()=>{
         }
     }
 }
+
+// ---------------> ESTADISTICA papeleta verde
+export const getGreenBallotsRequest = async () => {
+    try {
+        return await apiClient.get('/statistics/getGreenBallot');
+    } catch (err) {
+        return {
+            error: true,
+            err
+        }
+    }
+}
+
+// ----------------> ESTADISTICA Papeleta rosada
+export const getPinkBallotsRequest = async () => {
+    try {
+        return await apiClient.get('/statistics/getPinkBallot');
+    } catch (err) {
+        return {
+            error: true,
+            err
+        }
+    }
+}
+
+// --------------> ESTADISTICA papeleta azul
+export const getBlueBallotsRequest = async () => {
+    try {
+        return await apiClient.get('/statistics/getBlueBallot');
+    } catch (err) {
+        return {
+            error: true,
+            err
+        }
+    }
+}
+
+// -----------------> ESTADISTICA Papeleta amarilla
+export const getYellowBallotsRequest = async () => {
+    try {
+        return await apiClient.get('/statistics/getYellowBallot');
+    } catch (err) {
+        return {
+            error: true,
+            err
+        }
+    }
+}
+
+
+
+
+
+
+/*----------------------------> */
 
 export const getAllWhiteTeam = async () => {
     try {
@@ -375,7 +394,7 @@ export const getPartiesByLoggedUser = async () => {
 }
 
 
-export const addPresidentialTeam = async ( data) => {
+export const addPresidentialTeam = async (data) => {
     try {
         console.log('datos en el api', data)
         const response = await apiClient.post(`/parties/addPresidentialTeam`, data)
@@ -383,12 +402,12 @@ export const addPresidentialTeam = async ( data) => {
     } catch (err) {
         return {
             error: true,
-            err 
+            err
         }
     }
 }
 
-export const addNationalListDeputy = async ( data) => {
+export const addNationalListDeputy = async (data) => {
     try {
         console.log('datos en el api', data)
         const response = await apiClient.post(`/parties/addNationalListDeputy`, data)
@@ -396,12 +415,12 @@ export const addNationalListDeputy = async ( data) => {
     } catch (err) {
         return {
             error: true,
-            err 
+            err
         }
     }
 }
 
-export const addDistrictDeputy = async ( data) => {
+export const addDistrictDeputy = async (data) => {
     try {
         console.log('datos en el api', data)
         const response = await apiClient.post(`/parties/addDistrictDeputy`, data)
@@ -409,7 +428,7 @@ export const addDistrictDeputy = async ( data) => {
     } catch (err) {
         return {
             error: true,
-            err 
+            err
         }
     }
 }
@@ -437,7 +456,7 @@ export const getInitiativesByUser = async (id) => {
     }
 }
 
-export const addParlamentDeputy = async ( data) => {
+export const addParlamentDeputy = async (data) => {
     try {
         console.log('datos en el api', data)
         const response = await apiClient.post(`/parties/addParlamentDeputy`, data)
@@ -445,11 +464,11 @@ export const addParlamentDeputy = async ( data) => {
     } catch (err) {
         return {
             error: true,
-            err 
+            err
         }
     }
 }
-            
+
 export const addInitiativeRequest = async (data) => {
     try {
         return await apiClient.post('/initiative/addInitiative', data)
@@ -461,7 +480,7 @@ export const addInitiativeRequest = async (data) => {
     }
 }
 
-export const addMayorTeamMember = async ( data) => {
+export const addMayorTeamMember = async (data) => {
     try {
         console.log('datos en el api', data)
         const response = await apiClient.post(`/parties/addMayorTeamMember`, data)
@@ -469,7 +488,7 @@ export const addMayorTeamMember = async ( data) => {
     } catch (err) {
         return {
             error: true,
-            err 
+            err
         }
     }
 }

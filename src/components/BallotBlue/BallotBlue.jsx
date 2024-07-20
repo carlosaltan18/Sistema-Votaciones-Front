@@ -40,7 +40,7 @@ export const BallotBlue = () => {
 
     const userName = 'Joshua Elí Isaac'
     const surname = 'Realiquez Sosa'
-    const userDPI = '3012746060101'
+    const userDPI = '1234567899999'
     const pageTitle = 'Candidatos | 2024'
 
     return (

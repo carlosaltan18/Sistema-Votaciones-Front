@@ -1,6 +1,5 @@
 import React from 'react'
 import './Homepage.css'
-import imCandidatos from '../../assets/images/candidatos.png'
 import Navbar from '../../components/Nabvar/Navbar'
 import { useNavigate } from "react-router-dom"
 import { useUserDetails } from '../../shared/hooks/useUserDetails'
@@ -15,20 +14,14 @@ import imgadministrarUser from '../../assets/images/administrarUsuario.jpg'
 import imgadministrarparty from '../../assets/images/administrarPartido.jpg'
 import imgRegisterParty from '../../assets/images/registrarPartido.jpg'
 
-
-
-const protocol = window.location.protocol
-const baseUrl = `${protocol}//192.168.6.21:8001`;
-
 export const Homepage = () => {
   const navigate = useNavigate()
   const { isLogged, user, isLoading } = useUserDetails()
   const pageTitle = '¿Qué Deseas Hacer?'
 
-
   const handleNavigate = (path) => {
     console.log("Voter Registration:", user.voterRegistration)
-  
+
     const allowedPaths = ['/candidate', '/estadistica']
     if (path === '/pruebas') {
       if (!user.voterRegistration) {
@@ -39,12 +32,12 @@ export const Homepage = () => {
           confirmButtonText: 'OK',
           showCloseButton: true,
         })
-        return; 
+        return;
       }
       navigate(path)
       return
     }
-  
+
     if (isLogged || allowedPaths.includes(path)) {
       navigate(path);
     } else {
@@ -67,47 +60,44 @@ export const Homepage = () => {
     {
       role: 'ADMINISTRADOR-PLATAFORMA',
       cards: [
-        { description: 'Registrar Partido', path: '/registrarPartido', image: `${baseUrl}${imgRegisterParty}` },
-        { description: 'Ver Estadísticas', path: '/estadistica', image: `${baseUrl}${imgEstadistica}` },
-        { description: 'Registrar Usuarios', path: '/registerUser', image: `${baseUrl}${imgadministrarUser}` },
+        { description: 'Registrar Partido', path: '/registrarPartido', image: imgRegisterParty },
+        { description: 'Ver Estadísticas', path: '/estadistica', image: imgEstadistica },
+        { description: 'Registrar Usuarios', path: '/registerUser', image: imgadministrarUser },
       ],
     },
     {
       role: 'USUARIO',
       cards: [
-        { description: 'Conocer a los Candidatos', path: '/candidate', image: `${baseUrl}${imgCandidatos}`},
-        { description: 'Realizar mi Elección', path: '/pruebas', image: `${baseUrl}${imgVotar}`},
-        { description: 'Ver Estadísticas', path: '/estadistica', image: `${baseUrl}${imgEstadistica}`},
-        { description: 'Me quiero Empadronar', path: '/joinpage', image: `${baseUrl}${imgEmpadronar}` },
+        { description: 'Conocer a los Candidatos', path: '/candidate', image: imgCandidatos },
+        { description: 'Realizar mi Elección', path: '/pruebas', image: imgVotar },
+        { description: 'Ver Estadísticas', path: '/estadistica', image: imgEstadistica },
+        { description: 'Me quiero Empadronar', path: '/joinpage', image: imgEmpadronar },
       ],
     },
     {
       role: 'FUNCIONARIO',
       cards: [
-        { description: 'Conocer a los Candidatos', path: '/candidate', image: `${baseUrl}${imgCandidatos}` },
-        { description: 'Ver Estadísticas', path: '/estadistica', image: `${baseUrl}${imgEstadistica}`},
-        { description: 'Realizar mi Elección', path: '/pruebas', image: `${baseUrl}${imgVotar}` },
-        { description: 'Me quiero Empadronar', path: '/joinpage', image: `${baseUrl}${imgEmpadronar}` },
-        { description: 'Experiencias e iniciativas', path: '/ExperienciaAndIniciativas', image: `${baseUrl}${imgExperiencia}` }
-
+        { description: 'Conocer a los Candidatos', path: '/candidate', image: imgCandidatos },
+        { description: 'Ver Estadísticas', path: '/estadistica', image: imgEstadistica },
+        { description: 'Realizar mi Elección', path: '/pruebas', image: imgVotar },
+        { description: 'Me quiero Empadronar', path: '/joinpage', image: imgEmpadronar },
+        { description: 'Experiencias e iniciativas', path: '/ExperienciaAndIniciativas', image: imgExperiencia }
       ],
     },
     {
       role: 'ADMINISTRADOR-PARTIDO',
       cards: [
-       
-        { description: 'Estadísticas', path: '/estadistica', image: `${baseUrl}${imgEstadistica}` },
-        { description: 'Administrar Partido', path: '/administrarPartido', image: `${baseUrl}${imgadministrarparty}` }
+        { description: 'Estadísticas', path: '/estadistica', image: imgEstadistica },
+        { description: 'Administrar Partido', path: '/administrarPartido', image: imgadministrarparty }
       ],
     },
     {
       role: 'GUEST',
       cards: [
-        { description: 'Conocer a los Candidatos', path: '/candidate', image: `${baseUrl}${imgCandidatos}`},
-        { description: 'Realizar mi Elección', path: '/pruebas', image: `${baseUrl}${imgVotar}`},
-        { description: 'Me quiero Empadronar', path: '/empadronar', image: `${baseUrl}${imgEmpadronar}`},
-        { description: 'Ver Estadísticas', path: '/estadistica', image: `${baseUrl}${imgEstadistica}`},
-
+        { description: 'Conocer a los Candidatos', path: '/candidate', image: imgCandidatos },
+        { description: 'Realizar mi Elección', path: '/pruebas', image: imgVotar },
+        { description: 'Me quiero Empadronar', path: '/empadronar', image: imgEmpadronar },
+        { description: 'Ver Estadísticas', path: '/estadistica', image: imgEstadistica },
       ],
     },
   ];

@@ -1,10 +1,9 @@
-import * as d3 from "d3";
-import { useRef, useEffect, useState } from "react";
-import { useGetGreenBallot } from "../../shared/hooks/statistics/useGetGreenBallot";
+import React, { useEffect, useState } from "react";
+import { useGetPinkBallot } from "../../shared/hooks/statistics/useGetPinkBallot";
 import { io } from 'socket.io-client';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell, ResponsiveContainer } from 'recharts';
 
-export const NationalListStatistics = ({
+export const MayorStatistics = ({
     width = 800,
     height = 600,
     marginLeft = 40,
@@ -12,26 +11,26 @@ export const NationalListStatistics = ({
     marginRight = 20,
     marginBottom = 30
 }) => {
-    const { isLoading, greenBallot, getGreenBallotsApi } = useGetGreenBallot();
+    const { isLoading, pinkBallot, getPinkBallotsApi } = useGetPinkBallot();
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        // Llama a getGreenBallotsApi una vez cuando el componente se monta
-        getGreenBallotsApi();
+        // Llama a getPinkBallotsApi una vez cuando el componente se monta
+        getPinkBallotsApi();
     }, []);
 
     useEffect(() => {
-        if (!isLoading && greenBallot.length > 0) {
-            const transformedData = greenBallot.map(item => ({
-                id: item.greenTeam._id,
-                label: item.greenTeam.partie.name,
+        if (!isLoading && pinkBallot.length > 0) {
+            const transformedData = pinkBallot.map(item => ({
+                id: item.pinkTeam._id,
+                name: item.pinkTeam.partie.name,
                 votos: item.count,
-                color: item.greenTeam.partie.colorHex,
-                acronym: item.greenTeam.partie.acronym
+                color: item.pinkTeam.partie.colorHex,
+                acronym: item.pinkTeam.partie.acronym
             }));
             setData(transformedData);
         }
-    }, [isLoading, greenBallot]);
+    }, [isLoading, pinkBallot]);
 
     useEffect(() => {
         // Conectar al servidor de sockets
@@ -44,26 +43,26 @@ export const NationalListStatistics = ({
             console.log('Conectado al servidor de sockets');
         });
 
-        // Suscribirse al evento de nueva papeleta verde
-        socket.on('newGreenBallot', (newData) => {
-            console.log('Nueva papeleta verde', newData);
+        // Suscribirse al evento de nueva papeleta rosada
+        socket.on('newPinkBallot', (newData) => {
+            console.log('Nueva papeleta rosada', newData);
 
             setData((prevData) => {
                 const updateData = [...prevData];
 
                 const existingTeamIndex = updateData.findIndex(item => {
-                    return item.id == newData.greenTeam.idTeam;
+                    return item.id == newData.pinkTeam.idTeam;
                 });
 
                 if (existingTeamIndex !== -1) {
                     updateData[existingTeamIndex].value = newData.count;
                 } else {
                     updateData.push({
-                        id: newData.greenTeam.idTeam,
-                        label: newData.greenTeam.name,
+                        id: newData.pinkTeam.idTeam,
+                        name: newData.pinkTeam.name,
                         votos: newData.count,
-                        color: newData.greenTeam.colorHex,
-                        acronym: newData.greenTeam.acronym
+                        color: newData.pinkTeam.colorHex,
+                        acronym: newData.pinkTeam.acronym
                     });
                 }
                 return updateData;
@@ -88,7 +87,7 @@ export const NationalListStatistics = ({
                 >
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis type="number" />
-                    <YAxis type="category" dataKey="acronym" tick={{fill: 'black', fontWeight: 'bold'}} />
+                    <YAxis type="category" dataKey="acronym" tick={{ fill: 'black', fontWeight: 'bold' }} />
                     <Tooltip />
                     <Legend />
                     <Bar dataKey="votos">
@@ -101,4 +100,3 @@ export const NationalListStatistics = ({
         )
     );
 };
-

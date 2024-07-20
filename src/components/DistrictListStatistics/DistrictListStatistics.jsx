@@ -1,10 +1,9 @@
-import * as d3 from "d3";
-import { useRef, useEffect, useState } from "react";
-import { useGetGreenBallot } from "../../shared/hooks/statistics/useGetGreenBallot";
+import React, { useEffect, useState } from "react";
+import { useGetBlueBallot } from "../../shared/hooks/statistics/useGetBlueBallot";
 import { io } from 'socket.io-client';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Cell, ResponsiveContainer } from 'recharts';
 
-export const NationalListStatistics = ({
+export const DistrictListStatistics = ({
     width = 800,
     height = 600,
     marginLeft = 40,
@@ -12,26 +11,26 @@ export const NationalListStatistics = ({
     marginRight = 20,
     marginBottom = 30
 }) => {
-    const { isLoading, greenBallot, getGreenBallotsApi } = useGetGreenBallot();
+    const { isLoading, blueBallot, getBlueBallotsApi } = useGetBlueBallot();
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        // Llama a getGreenBallotsApi una vez cuando el componente se monta
-        getGreenBallotsApi();
+        // Llama a getBlueBallotsApi una vez cuando el componente se monta
+        getBlueBallotsApi();
     }, []);
 
     useEffect(() => {
-        if (!isLoading && greenBallot.length > 0) {
-            const transformedData = greenBallot.map(item => ({
-                id: item.greenTeam._id,
-                label: item.greenTeam.partie.name,
+        if (!isLoading && blueBallot.length > 0) {
+            const transformedData = blueBallot.map(item => ({
+                id: item.blueTeam._id,
+                name: item.blueTeam.partie.name,
                 votos: item.count,
-                color: item.greenTeam.partie.colorHex,
-                acronym: item.greenTeam.partie.acronym
+                color: item.blueTeam.partie.colorHex,
+                acronym: item.blueTeam.partie.acronym
             }));
             setData(transformedData);
         }
-    }, [isLoading, greenBallot]);
+    }, [isLoading, blueBallot]);
 
     useEffect(() => {
         // Conectar al servidor de sockets
@@ -44,26 +43,26 @@ export const NationalListStatistics = ({
             console.log('Conectado al servidor de sockets');
         });
 
-        // Suscribirse al evento de nueva papeleta verde
-        socket.on('newGreenBallot', (newData) => {
-            console.log('Nueva papeleta verde', newData);
+        // Suscribirse al evento de nueva papeleta blanca
+        socket.on('newBlueBallot', (newData) => {
+            console.log('Nueva papeleta blanca', newData);
 
             setData((prevData) => {
                 const updateData = [...prevData];
 
                 const existingTeamIndex = updateData.findIndex(item => {
-                    return item.id == newData.greenTeam.idTeam;
+                    return item.id == newData.blueTeam.idTeam;
                 });
 
                 if (existingTeamIndex !== -1) {
                     updateData[existingTeamIndex].value = newData.count;
                 } else {
                     updateData.push({
-                        id: newData.greenTeam.idTeam,
-                        label: newData.greenTeam.name,
+                        id: newData.blueTeam.idTeam,
+                        name: newData.blueTeam.name,
                         votos: newData.count,
-                        color: newData.greenTeam.colorHex,
-                        acronym: newData.greenTeam.acronym
+                        color: newData.blueTeam.colorHex,
+                        acronym: newData.blueTeam.acronym
                     });
                 }
                 return updateData;
@@ -101,4 +100,3 @@ export const NationalListStatistics = ({
         )
     );
 };
-

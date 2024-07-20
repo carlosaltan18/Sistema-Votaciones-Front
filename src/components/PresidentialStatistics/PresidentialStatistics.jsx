@@ -34,7 +34,7 @@ export const PresidentialStatistics = ({
 
     useEffect(() => {
         // Conectar al servidor de sockets
-        const socket = io('http://localhost:2558', {
+        const socket = io(import.meta.env.REACT_APP_SOCKET_URL, {
             withCredentials: false,
         });
 
@@ -87,7 +87,7 @@ export const PresidentialStatistics = ({
                 >
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis type="number" />
-                    <YAxis type="category" dataKey="acronym" />
+                    <YAxis type="category" dataKey="acronym" tick={{fill: 'black', fontWeight: 'bold'}} />
                     <Tooltip />
                     <Legend />
                     <Bar dataKey="votos">
